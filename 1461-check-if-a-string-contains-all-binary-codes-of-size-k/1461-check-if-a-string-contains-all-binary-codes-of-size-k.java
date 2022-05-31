@@ -1,22 +1,21 @@
 class Solution {
-    public boolean hasAllCodes(String s, int k) {
-        boolean[] got = new boolean[1 << k];
-        int need = got.length;
-        char[] given = s.toCharArray();
-        int left = 0, right = 0, temp;
-        StringBuilder sb = new StringBuilder();
-        while(right < given.length){
-            sb.append(given[right++]);
-            if(right - left == k){
-                temp = Integer.parseInt(sb.toString(), 2);
-                if(!got[temp]){
-                    got[temp] = true;
-                    need --;
+    public static boolean hasAllCodes(String s, int k) {
+        int need = 1 << k;
+        boolean[] got = new boolean[need];
+        int allOne = need - 1;
+        int hashVal = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            // calculate hash for s.substr(i-k+1,i+1)
+            hashVal = ((hashVal << 1) & allOne) | (s.charAt(i) - '0');
+            // hash only available when i-k+1 > 0
+            if (i >= k - 1 && !got[hashVal]) {
+                got[hashVal] = true;
+                need--;
+                if (need == 0) {
+                    return true;
                 }
-                sb.deleteCharAt(0);
-                left++;
             }
-            if(need == 0) return true;
         }
         return false;
     }
