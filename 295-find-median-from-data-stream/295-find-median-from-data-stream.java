@@ -8,12 +8,15 @@ class MedianFinder {
     }
     
     public void addNum(int num) {
-        flip = !flip;
-        max.add(num);
-        if(max.size() > min.size())
+        if(flip){
+            max.add(num);
             min.add(max.poll());
-        max.add(min.poll());
-        min.add(max.poll());
+        }
+        else{
+            min.add(num);
+            max.add(min.poll());
+        }
+        flip = !flip;
     }
     
     public double findMedian() {
