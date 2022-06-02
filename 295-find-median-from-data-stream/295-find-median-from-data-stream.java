@@ -2,12 +2,13 @@ class MedianFinder {
 
     PriorityQueue<Integer> min = new PriorityQueue<>();
     PriorityQueue<Integer> max = new PriorityQueue<>(Collections.reverseOrder());
-    
+    boolean flip = true;
     public MedianFinder() {
         
     }
     
     public void addNum(int num) {
+        flip = !flip;
         max.add(num);
         if(max.size() > min.size())
             min.add(max.poll());
@@ -16,7 +17,7 @@ class MedianFinder {
     }
     
     public double findMedian() {
-        if(max.size() == min.size()){
+        if(flip){
             return (double)(max.peek() + min.peek()) / 2;
         }
         else return min.peek(); 
