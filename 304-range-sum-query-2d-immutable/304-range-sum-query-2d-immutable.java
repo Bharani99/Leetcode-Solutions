@@ -19,12 +19,12 @@ class NumMatrix {
     
     public int sumRegion(int row1, int col1, int row2, int col2) {
         ans = cache[row1][col1];
-        if(row2 + 1 < cache.length)
-            ans -= cache[row2 + 1][col1];
-        if(col2 + 1 < cache[0].length)
-            ans -= cache[row1][col2 + 1];
         if(row2 + 1 < cache.length && col2 + 1 < cache[0].length)
-            ans += cache[row2 + 1][col2 + 1];
+            ans += cache[row2 + 1][col2 + 1] - cache[row2 + 1][col1] - cache[row1][col2 + 1];
+        else if(row2 + 1 < cache.length)
+            ans -= cache[row2 + 1][col1];
+        else if(col2 + 1 < cache[0].length)
+            ans -= cache[row1][col2 + 1];
         return ans;
     }
 }
