@@ -4,7 +4,7 @@ class NumMatrix {
     int ans;
     
     public NumMatrix(int[][] matrix) {
-        cache = new int[matrix.length][matrix[0].length];
+        cache = new int[matrix.length + 1][matrix[0].length + 1];
         int sum;
         for(int i = matrix.length - 1; i >= 0; i--){
             sum = 0;
@@ -18,14 +18,7 @@ class NumMatrix {
     }
     
     public int sumRegion(int row1, int col1, int row2, int col2) {
-        ans = cache[row1][col1];
-        if(row2 + 1 < cache.length && col2 + 1 < cache[0].length)
-            ans += cache[row2 + 1][col2 + 1] - cache[row2 + 1][col1] - cache[row1][col2 + 1];
-        else if(row2 + 1 < cache.length)
-            ans -= cache[row2 + 1][col1];
-        else if(col2 + 1 < cache[0].length)
-            ans -= cache[row1][col2 + 1];
-        return ans;
+        return cache[row1][col1] + cache[row2 + 1][col2 + 1] - cache[row2 + 1][col1] - cache[row1][col2 + 1];
     }
 }
 
