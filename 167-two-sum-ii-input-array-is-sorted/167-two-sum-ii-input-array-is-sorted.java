@@ -12,6 +12,7 @@ class Solution {
     public int[] twoSum(int[] numbers, int target) {
         int other;
         for(int i = 0; i < numbers.length - 1; i++){
+            if(i > 0 && numbers[i] == numbers[i - 1]) continue;
             other = binarySearch(numbers, i + 1, numbers.length, target - numbers[i]);
             if(other < numbers.length && numbers[other] == target - numbers[i]) 
                 return new int[]{i + 1, other + 1};
