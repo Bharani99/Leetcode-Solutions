@@ -18,15 +18,13 @@ class Solution {
                 left = i - mid;
                 right = i + mid;
             }
-        }
-        for(int i = 0; i < c.length; i++){
             curr = count(c, i, i + 1);
             if(ans < curr){
                 ans = Math.max(ans, curr);
                 mid = (curr) / 2;
                 left = i - mid + 1;
                 right = i + mid;
-            }        
+            } 
         }
         return s.substring(left, right + 1);
     }
