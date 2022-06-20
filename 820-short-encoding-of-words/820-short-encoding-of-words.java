@@ -1,15 +1,15 @@
 class Solution {
     Trie root;
     class Trie{
-        HashMap<Character, Trie> children = new HashMap<>(26);
+        Trie[] children = new Trie[26];
     }
     public void addWord(String word){
         Trie curr = root;
         char[] w = word.toCharArray();
         for(int i = w.length - 1; i >= 0; i--){
-            if(!curr.children.containsKey(w[i]))
-                curr.children.put(w[i], new Trie());
-            curr = curr.children.get(w[i]);
+            if(curr.children[w[i] - 'a'] == null)
+                curr.children[w[i] - 'a'] = new Trie();
+            curr = curr.children[w[i] - 'a'];
         }
     }
     
@@ -17,8 +17,8 @@ class Solution {
         Trie curr = root;
         char[] w = word.toCharArray();
         for(int i = w.length - 1; i >= 0; i--){
-            if(!curr.children.containsKey(w[i])) return false;
-            curr = curr.children.get(w[i]);
+            if(curr.children[w[i] - 'a'] == null) return false;
+            curr = curr.children[w[i] - 'a'];
         }
         return true;
     }
