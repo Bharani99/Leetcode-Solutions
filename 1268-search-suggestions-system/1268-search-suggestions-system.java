@@ -1,52 +1,70 @@
-class Solution {
-    Trie root;
-    class Trie{
-        boolean isWord;
-        TreeMap<Character, Trie> children = new TreeMap<>();
+// Custom class Trie with function to get 3 words starting with given prefix
+class Trie {
+
+    // Node definition of a trie
+    class Node {
+        boolean isWord = false;
+        List<Node> children = Arrays.asList(new Node[26]);
+    };
+    Node Root, curr;
+    List<String> resultBuffer;
+
+    // Runs a DFS on trie starting with given prefix and adds all the words in the resultBuffer, limiting result size to 3
+    void dfsWithPrefix(Node curr, String word) {
+        if (resultBuffer.size() == 3)
+            return;
+        if (curr.isWord)
+            resultBuffer.add(word);
+
+        // Run DFS on all possible paths.
+        for (char c = 'a'; c <= 'z'; c++)
+            if (curr.children.get(c - 'a') != null)
+                dfsWithPrefix(curr.children.get(c - 'a'), word + c);
     }
-    void addWord(String word){
-        Trie curr = root, temp;
-        for(char c : word.toCharArray()){
-            temp =  curr.children.getOrDefault(c, new Trie());
-            curr.children.put(c, temp);
-            curr = temp;
+    Trie() {
+        Root = new Node();
+    }
+
+    // Inserts the string in trie.
+    void insert(String s) {
+
+        // Points curr to the root of trie.
+        curr = Root;
+        for (char c : s.toCharArray()) {
+            if (curr.children.get(c - 'a') == null)
+                curr.children.set(c - 'a', new Node());
+            curr = curr.children.get(c - 'a');
         }
+
+        // Mark this node as a completed word.
         curr.isWord = true;
     }
-    public void find3(List<String> inner, StringBuilder word, Trie curr){
-        if(inner.size() == 3) return;
-        if(curr.isWord) inner.add(word.toString());
-        if(curr.children.size() == 0) return;
-        for(char key : curr.children.keySet()){
-            if(inner.size() == 3) break;
-            word.append(key);
-            find3(inner, word, curr.children.get(key));
-            word.deleteCharAt(word.length() - 1);
+    List<String> getWordsStartingWith(String prefix) {
+        curr = Root;
+        resultBuffer = new ArrayList<String>();
+        // Move curr to the end of prefix in its trie representation.
+        for (char c : prefix.toCharArray()) {
+            if (curr.children.get(c - 'a') == null)
+                return resultBuffer;
+            curr = curr.children.get(c - 'a');
         }
+        dfsWithPrefix(curr, prefix);
+        return resultBuffer;
     }
-    
-    
-    public List<List<String>> suggestedProducts(String[] products, String searchWord) {
-        root = new Trie();
-        for(String word : products){
-            addWord(word);
+};
+class Solution {
+    List<List<String>> suggestedProducts(String[] products,
+                                         String searchWord) {
+        Trie trie = new Trie();
+        List<List<String>> result = new ArrayList<>();
+        // Add all words to trie.
+        for (String w : products)
+            trie.insert(w);
+        String prefix = new String();
+        for (char c : searchWord.toCharArray()) {
+            prefix += c;
+            result.add(trie.getWordsStartingWith(prefix));
         }
-        Trie curr = root;
-        List<List<String>> output = new ArrayList<>();
-        StringBuilder word = new StringBuilder();
-        List<String> inner = new ArrayList<>();
-        
-        for(Character letter : searchWord.toCharArray()){
-            if(curr == null || !curr.children.containsKey(letter)){
-                break;
-            }
-            curr = curr.children.get(letter);
-            word.append(letter);
-            find3(inner, word, curr);
-            output.add(new ArrayList<>(inner));
-            inner.clear();
-        }
-        while(output.size() < searchWord.length()) output.add(new ArrayList<>());
-        return output;
+        return result;
     }
-}
+};
