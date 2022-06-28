@@ -1,31 +1,24 @@
 class Solution {
     public int minDeletions(String s) {
-        TreeMap<Integer, Integer> map = new TreeMap<>();
-        int[] count = new int[26];
-        int temp = 0, ans = 0, changeKey, curr;
-        for(char c : s.toCharArray()){
-            temp = ++count[c - 'a'];
-            if(temp > 1) {
-                curr = map.get(temp - 1);
-                if(curr == 1) map.remove(temp - 1);
-                else map.put(temp - 1, curr - 1);
-            }
-            map.put(temp, map.getOrDefault(temp, 0) + 1);
+        // Store the frequency of each character
+        int[] frequency = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            frequency[s.charAt(i) - 'a']++;
         }
-        if(map.containsKey(0)) map.remove(0);
-        Integer key = map.firstKey();
-        while(key != null){
-            temp = map.get(key);
-            while(temp > 1){
-                changeKey = key;
-                while(map.containsKey(changeKey)) changeKey--;
-                ans += key - changeKey;
-                if(changeKey != 0) map.put(changeKey, 1);
-                temp --;
+        
+        int deleteCount = 0;
+        // Use a set to store the frequencies we have already seen
+        HashSet<Integer> seenFrequencies = new HashSet<>();
+        for (int i = 0; i < 26; i++) {
+            // Keep decrementing the frequency until it is unique
+            while (frequency[i] > 0 && seenFrequencies.contains(frequency[i])) {
+                frequency[i]--;
+                deleteCount++;
             }
-            map.put(key, 1);
-            key = map.higherKey(key);
+            // Add the newly occupied frequency to the set
+            seenFrequencies.add(frequency[i]);
         }
-        return ans;
+        
+        return deleteCount;
     }
 }
