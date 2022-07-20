@@ -1,34 +1,32 @@
+class Node {
+    String word;
+    int index;
+    Node(String word, int index) {
+        this.word = word;
+        this.index = index;
+    }
+}
 class Solution {
     public int numMatchingSubseq(String s, String[] words) {
-        HashMap<Character, TreeSet<Integer>> map = new HashMap<>();
-        TreeSet<Integer> inner;
-        char letter;
-        for(int i = 0; i < s.length(); i++){
-            letter = s.charAt(i);
-            inner = map.getOrDefault(letter, new TreeSet<>());
-            inner.add(i);
-            map.put(letter, inner);
+        ArrayList<Node>[] buckets = new ArrayList[26];
+        for (int i = 0; i < 26; ++i) buckets[i] = new ArrayList<>();
+        for (String word : words) {
+            char startingChar = word.charAt(0);
+            buckets[startingChar-'a'].add(new Node(word, 0));
         }
-        int ans = 0, index = -1;
-        Integer next;
-        boolean present = true;
-        for(String word : words){
-            present = true;
-            for(char c : word.toCharArray()){
-                if(!map.containsKey(c)){
-                    present = false;
-                    break;
+        int ans = 0;
+        for (char c : s.toCharArray()) {
+            ArrayList<Node> currBucket = buckets[c-'a'];
+            buckets[c-'a'] = new ArrayList<>();
+            for (Node node : currBucket) {
+                node.index += 1; // Point to next character of node.word
+                if (node.index == node.word.length()) {
+                    ans += 1;
+                } else {
+                    char startingChar = node.word.charAt(node.index);
+                    buckets[startingChar - 'a'].add(node);
                 }
-                inner = map.get(c);
-                next = inner.higher(index);
-                if(next == null){
-                    present = false;
-                    break;
-                }
-                index = next;
             }
-            if(present) ans++;
-            index = -1;
         }
         return ans;
     }
