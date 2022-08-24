@@ -1,40 +1,39 @@
 class Solution {
+    public String crackSafe(int n, int k) {
+        // Initialize pwd to n repeated 0's as the start node of DFS.
+        String strPwd = String.join("", Collections.nCopies(n, "0"));
+        StringBuilder sbPwd = new StringBuilder(strPwd);
+        
+        Set<String> visitedComb = new HashSet<>();
+        visitedComb.add(strPwd);
     
-    public boolean crackSafe(int total, StringBuilder sb, HashSet<String> visited, int n, int k){
-        if(visited.size() == total){
+        int targetNumVisited = (int) Math.pow(k, n);
+        
+        crackSafeAfter(sbPwd, visitedComb, targetNumVisited, n, k);
+        
+        return sbPwd.toString();
+    }
+    
+    private boolean crackSafeAfter(StringBuilder pwd, Set<String> visitedComb, int targetNumVisited, int n, int k) {
+        // Base case: all n-length combinations among digits 0..k-1 are visited. 
+        if (visitedComb.size() == targetNumVisited) {
             return true;
         }
         
-        String reuse = sb.substring(sb.length() - n + 1);
-        for(char ch = '0'; ch < '0' + k; ch++){
-            reuse += ch;
-            if(!visited.contains(reuse)){
-                sb.append(ch);
-                visited.add(reuse);
-                
-                if(crackSafe(total, sb, visited, n, k))
+        String lastDigits = pwd.substring(pwd.length() - n + 1); // Last n-1 digits of pwd.
+        for (char ch = '0'; ch < '0' + k; ch++) {
+            String newComb = lastDigits + ch;
+            if (!visitedComb.contains(newComb))  {
+                visitedComb.add(newComb);
+                pwd.append(ch);
+                if (crackSafeAfter(pwd, visitedComb, targetNumVisited, n, k)) {
                     return true;
-                
-                visited.remove(reuse);
-                sb.deleteCharAt(sb.length() - 1);
+                }
+                visitedComb.remove(newComb);
+                pwd.deleteCharAt(pwd.length() - 1);
             }
-            reuse = reuse.substring(0, reuse.length() - 1);
         }
         
         return false;
-    }
-    
-    public String crackSafe(int n, int k) {
-        int totalPossible = (int) Math.pow(k, n);
-        HashSet<String> visited = new HashSet<>();
-        StringBuilder sb = new StringBuilder();
-        
-        for(int i = 0; i < n; i++) sb.append("0");
-        
-        visited.add(sb.toString());
-        
-        crackSafe(totalPossible, sb, visited, n, k);
-        
-        return sb.toString();
     }
 }
