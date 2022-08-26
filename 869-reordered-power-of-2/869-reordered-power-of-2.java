@@ -12,14 +12,14 @@ class Solution {
         return sb.toString();
     }
         
-    public boolean checkValues(int digits, int[] powers, String hash){
+    public boolean checkValues(int digits, String hash){
         int[] pattern = new int[]{0, 4, 7};
         int[] end = new int[]{4, 3, 3};
         int bucket = (digits - 1) / 3;
         int start = (digits - 1) % 3;
         int index = bucket * 10 + pattern[start];
         for(int i = 0; i < end[start]; i++){
-            if(getHash(powers[index++]).equals(hash)) 
+            if(getHash(1 << index++).equals(hash)) 
                 return true;
         }
         return false;
@@ -27,18 +27,12 @@ class Solution {
     
     public boolean reorderedPowerOf2(int n) {
         if(n == 1) return true;
-        int[] powers = new int[31];
-        int vals = 1;
-        for(int i = 0; i < 31; i++){
-            powers[i] = vals;
-            vals *= 2;
-        }
         int numOfDigits = 0;
         int temp = n;
         while(temp > 0){
             temp /= 10;
             numOfDigits++;
         }
-        return checkValues(numOfDigits, powers, getHash(n));
+        return checkValues(numOfDigits, getHash(n));
     }
 }
