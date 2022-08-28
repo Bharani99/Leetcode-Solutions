@@ -1,37 +1,31 @@
 class Solution {
     public int[][] diagonalSort(int[][] mat) {
-        ArrayList<Integer> list = new ArrayList<>();
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
         int m = mat.length, n = mat[0].length, j, k;
         for(int i = 0; i < m; i++){
-            list.clear();
             j = i;
             k = 0;
             while(j < m && k < n){
-                list.add(mat[j++][k++]);
+                pq.add(mat[j++][k++]);
             }
-            
-            Collections.sort(list);
-            
+                        
             j = i;
             k = 0;
             while(j < m && k < n)
-                mat[j++][k] = list.get(k++);
+                mat[j++][k++] = pq.poll();
         }
         
         for(int i = 1; i < n; i++){
-            list.clear();
             j = 0;
             k = i;
             while(j < m && k < n){
-                list.add(mat[j++][k++]);
+                pq.add(mat[j++][k++]);
             }
-            
-            Collections.sort(list);
-            
+                        
             j = 0;
             k = i;
             while(j < m && k < n)
-                mat[j][k++] = list.get(j++);
+                mat[j++][k++] = pq.poll();
         }
         return mat;
     }
