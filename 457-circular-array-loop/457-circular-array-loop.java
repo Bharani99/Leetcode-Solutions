@@ -25,6 +25,13 @@ class Solution {
             if(!pos && nums[slow] > 0) result = false;
         }while(slow != fast && nums[slow] != 0);
         
+        slow = index;
+        while(nums[slow] != 0) {
+            temp = getIndex(slow, nums);
+            nums[slow] = 0;
+            slow = temp;
+        }
+        
         return result && seqLen > 1;
     }
     
