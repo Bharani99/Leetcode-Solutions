@@ -1,38 +1,38 @@
-public class Solution {
-    public boolean circularArrayLoop(int[] nums) {
-        int n = nums.length;
-        for (int i = 0; i < n; i++) {
-            if (nums[i] == 0) {
-                continue;
-            }
-            // slow/fast pointer
-            int j = i, k = getIndex(i, nums);
-            while (nums[k] * nums[i] > 0 && nums[getIndex(k, nums)] * nums[i] > 0) {
-                if (j == k) {
-                    // check for loop with only one element
-                    if (j == getIndex(j, nums)) {
-                        break;
-                    }
-                    return true;
-                }
-                j = getIndex(j, nums);
-                k = getIndex(getIndex(k, nums), nums);
-            }
-            // loop not found, set all element along the way to 0
-            j = i;
-            int val = nums[i];
-            while (nums[j] * val > 0) {
-                int next = getIndex(j, nums);
-                nums[j] = 0;
-                j = next;
-            }
-        }
-        return false;
+class Solution {
+    public int getIndex(int curr, int[] nums){
+        if(nums.length == 1) return 0;
+        curr += nums[curr];
+        if(curr < 0) return nums.length + (curr % nums.length);
+        if(curr >= nums.length) return curr % nums.length;
+        else return curr;
     }
     
-    public int getIndex(int i, int[] nums) {
-        if(nums.length == 1) return 0;
-        int n = nums.length;
-        return i + nums[i] >= 0? (i + nums[i]) % n: n + ((i + nums[i]) % n);
+    public boolean circularArrayLoop(int[] nums, int index) {
+        int slow = index, fast = index, n = nums.length, seqLen = 0, temp;
+        do{
+            if(nums[slow] == 0 || nums[fast] == 0) return false;
+            slow = getIndex(slow, nums);
+            fast = getIndex(getIndex(fast, nums), nums);
+        }
+        while(slow != fast);
+
+        boolean pos = nums[slow] > 0;
+        do{
+            temp = getIndex(slow, nums);
+            nums[slow] = 0;
+            slow = temp;
+            seqLen ++;
+            if(pos && nums[slow] < 0) return false;
+            if(!pos && nums[slow] > 0) return false;
+        }while(slow != fast);
+        
+        return seqLen > 1;
+    }
+    
+    public boolean circularArrayLoop(int[] nums){
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] != 0 && circularArrayLoop(nums, i)) return true;
+        }
+        return false;
     }
 }
