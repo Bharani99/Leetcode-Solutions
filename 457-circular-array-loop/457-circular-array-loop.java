@@ -10,23 +10,22 @@ class Solution {
     public boolean circularArrayLoop(int[] nums, int index) {
         int slow = index, fast = index, n = nums.length, seqLen = 0, temp;
         do{
-            if(nums[slow] == 0 || nums[fast] == 0) return false;
             slow = getIndex(slow, nums);
             fast = getIndex(getIndex(fast, nums), nums);
         }
         while(slow != fast);
 
-        boolean pos = nums[slow] > 0;
+        boolean pos = nums[slow] > 0, result = true;
         do{
             temp = getIndex(slow, nums);
             nums[slow] = 0;
             slow = temp;
             seqLen ++;
-            if(pos && nums[slow] < 0) return false;
-            if(!pos && nums[slow] > 0) return false;
-        }while(slow != fast);
+            if(pos && nums[slow] < 0) result = false;
+            if(!pos && nums[slow] > 0) result = false;
+        }while(slow != fast && nums[slow] != 0);
         
-        return seqLen > 1;
+        return result && seqLen > 1;
     }
     
     public boolean circularArrayLoop(int[] nums){
