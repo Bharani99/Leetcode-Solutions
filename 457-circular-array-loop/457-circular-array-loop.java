@@ -19,7 +19,7 @@ class Solution {
         boolean pos = nums[slow] > 0;
         do{
             temp = getIndex(slow, nums);
-            nums[slow] = 0;
+            // nums[slow] = 0;
             slow = temp;
             seqLen ++;
             if(pos && nums[slow] < 0) return false;
