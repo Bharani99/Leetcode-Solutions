@@ -8,7 +8,6 @@ class Solution {
     }
     
     public boolean circularArrayLoop(int[] nums, int index) {
-        if(nums[index] == 0) return false;
         int slow = index, fast = index, n = nums.length, seqLen = 0, temp;
         do{
             slow = getIndex(slow, nums);
@@ -19,7 +18,7 @@ class Solution {
         boolean pos = nums[slow] > 0;
         do{
             temp = getIndex(slow, nums);
-            // nums[slow] = 0;
+            nums[slow] = 0;
             slow = temp;
             seqLen ++;
             if(pos && nums[slow] < 0) return false;
@@ -31,7 +30,7 @@ class Solution {
     
     public boolean circularArrayLoop(int[] nums){
         for(int i = 0; i < nums.length; i++){
-            if(circularArrayLoop(nums, i)) return true;
+            if(nums[i] != 0 && circularArrayLoop(nums, i)) return true;
         }
         return false;
     }
