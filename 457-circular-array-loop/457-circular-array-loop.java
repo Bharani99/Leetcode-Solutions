@@ -3,8 +3,7 @@ class Solution {
         if(nums.length == 1) return 0;
         curr += nums[curr];
         if(curr < 0) return nums.length + (curr % nums.length);
-        if(curr >= nums.length) return curr % nums.length;
-        else return curr;
+        else return curr % nums.length;
     }
     
     public boolean circularArrayLoop(int[] nums, int index) {
