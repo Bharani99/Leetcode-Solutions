@@ -1,5 +1,4 @@
 class Solution {
-    
     int[] next = new int[]{0, -1, 0, 1, 0};
     
     public boolean isValid(char[][] grid, int i, int j){
