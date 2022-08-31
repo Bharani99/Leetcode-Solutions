@@ -1,5 +1,4 @@
 class Solution {
-        
     int[] next = new int[]{0, -1, 0, 1, 0};
     
     public boolean isValid(int[][] h, int i, int j){
