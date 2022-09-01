@@ -14,9 +14,7 @@
  * }
  */
 class Solution {
-    
     int ans = 0;
-    
     public void goodNodes(TreeNode curr, int val){
         if(curr == null) return;
         if(curr.val >= val) ans++;
