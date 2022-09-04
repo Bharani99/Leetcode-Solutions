@@ -41,14 +41,12 @@ class Solution {
         
         int size = 0;
         CompNode curr;
+        
         while(!q.isEmpty()){
-            size = q.size();
-            for(int i = 0; i < size; i++){
-                curr = q.poll();
-                pq.add(new int[]{curr.row, curr.col, curr.node.val});
-                if(curr.node.left != null) q.add(new CompNode(curr.row + 1, curr.col - 1, curr.node.left));
-                if(curr.node.right != null) q.add(new CompNode(curr.row + 1, curr.col + 1, curr.node.right));
-            }
+            curr = q.poll();
+            pq.add(new int[]{curr.row, curr.col, curr.node.val});
+            if(curr.node.left != null) q.add(new CompNode(curr.row + 1, curr.col - 1, curr.node.left));
+            if(curr.node.right != null) q.add(new CompNode(curr.row + 1, curr.col + 1, curr.node.right));
         }
         
         List<List<Integer>> output = new ArrayList<>();
