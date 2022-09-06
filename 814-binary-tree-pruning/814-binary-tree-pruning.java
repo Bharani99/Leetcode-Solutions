@@ -14,13 +14,10 @@
  * }
  */
 class Solution {
-    public boolean saveNode(TreeNode curr){
-        if(curr == null) return false;
-        if(!saveNode(curr.left)) curr.left = null;
-        if(!saveNode(curr.right)) curr.right = null;
-        return (curr.val == 1) || (curr.left != null) || (curr.right) != null;
-    }
     public TreeNode pruneTree(TreeNode root) {
-        return saveNode(root) ? root : null;
+        if(root == null) return null;
+        root.left = pruneTree(root.left);
+        root.right = pruneTree(root.right);
+        return ((root.val == 0) && root.left == null && root.right == null) ? null : root;
     }
 }
