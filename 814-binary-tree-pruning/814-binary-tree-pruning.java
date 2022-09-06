@@ -16,10 +16,9 @@
 class Solution {
     public boolean saveNode(TreeNode curr){
         if(curr == null) return false;
-        boolean output = curr.val == 1;
         if(!saveNode(curr.left)) curr.left = null;
         if(!saveNode(curr.right)) curr.right = null;
-        return output || (curr.left != null) || (curr.right) != null;
+        return (curr.val == 1) || (curr.left != null) || (curr.right) != null;
     }
     public TreeNode pruneTree(TreeNode root) {
         return saveNode(root) ? root : null;
