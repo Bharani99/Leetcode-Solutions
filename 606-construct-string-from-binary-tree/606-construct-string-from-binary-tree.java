@@ -22,9 +22,12 @@ class Solution {
         construct(curr.right, sb);
         sb.append(")");
     }
-    public String tree2str(TreeNode root) {
+    public String tree2str(TreeNode curr) {
         StringBuilder ans = new StringBuilder();
-        construct(root, ans);
-        return ans.toString().substring(1, ans.length() - 1);
+        ans.append(curr.val);
+        construct(curr.left, ans);
+        if(curr.left == null && curr.right != null) ans.append("()");
+        construct(curr.right, ans);
+        return ans.toString();
     }
 }
