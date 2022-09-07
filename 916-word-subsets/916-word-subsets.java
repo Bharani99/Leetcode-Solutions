@@ -14,11 +14,9 @@ class Solution {
     }
     
     public List<String> wordSubsets(String[] words1, String[] words2) {
-        HashSet<String> seen = new HashSet();
+
         int[] hash = new int[26], small;
         for(String word : words2){
-            if(seen.contains(word)) continue;
-            seen.add(word);
             small = getHash(word);
             for(int i = 0; i < 26; i++){
                 hash[i] = Math.max(hash[i], small[i]);
