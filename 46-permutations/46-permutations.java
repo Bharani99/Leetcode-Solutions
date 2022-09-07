@@ -1,23 +1,31 @@
 class Solution {
-    public void perm(int[] nums, List<Integer> ind, List<List<Integer>> output, List<Integer> inner){
-        if(ind.isEmpty()){
-            output.add(new ArrayList<>(inner));
+    
+        
+    List<List<Integer>> ans=new ArrayList();    
+    public void dfs(ArrayList<Integer> list, ArrayList<Integer> res){
+        
+        if(list.isEmpty()){
+            ans.add(new ArrayList<>(res));
             return;
         }
-        List<Integer> temp = new ArrayList(ind);
-        for(int index : ind){
-            inner.add(nums[index]);
-            temp.remove(new Integer(index));
-            perm(nums, temp, output, inner);
-            temp.add(index);
-            inner.remove(inner.size() - 1);
+        
+        for(int i=0; i<list.size(); i++){
+            ArrayList<Integer> temp=new ArrayList(list);
+            res.add(temp.get(i));
+            temp.remove(i);
+            dfs(temp, res);
+            res.remove(res.size()-1);
+            
         }
+        
     }
-    public List<List<Integer>> permute(int[] nums) {
-        List<Integer> ind = new ArrayList<>();
-        for(int i = 0; i < nums.length; i++)ind.add(i);
-        List<List<Integer>> output = new ArrayList<>();
-        perm(nums, ind, output, new ArrayList<>());
-        return output;
+    
+    public List<List<Integer>> permute(int[] n) { 
+        ArrayList<Integer> temp = new ArrayList();
+        
+        for(int i=0; i<n.length; i++)temp.add(n[i]);
+        
+        dfs(temp, new ArrayList());
+        return ans;
     }
 }
