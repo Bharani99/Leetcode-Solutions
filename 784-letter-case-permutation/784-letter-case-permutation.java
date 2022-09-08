@@ -1,21 +1,27 @@
 class Solution {
     public List<String> letterCasePermutation(String s) {
         s = s.toLowerCase();
-        Queue<String> q = new LinkedList<>();
+        Queue<StringBuilder> q = new LinkedList<>();
         int size = 0;
-        q.add("");
-        String temp;
+        q.add(new StringBuilder());
+        StringBuilder temp;
         
         for(char c : s.toCharArray()){
             size = q.size();
             for(int i = 0; i < size; i++){
                 temp = q.poll();
-                q.add(temp + c);
+                temp.append(c);
+                q.add(new StringBuilder(temp));
                 if(c >= 'a' && c <= 'z'){
-                    q.add(temp + (char)(c - 32));
+                    temp.deleteCharAt(temp.length() - 1);
+                    temp.append((char)(c - 32));
+                    q.add(temp);
                 }
             }
         }
-        return new ArrayList<>(q);
+        
+        List<String> output = new ArrayList<>();
+        while(!q.isEmpty()) output.add(q.poll().toString());
+        return output;
     }
 }
