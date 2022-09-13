@@ -37,9 +37,7 @@ class Solution {
             
             n--;
             
-            if(n < 1){
-                shouldBeParent = true;
-            }
+            if(n < 1) shouldBeParent = true;
         }
         return shouldBeParent;
     }
