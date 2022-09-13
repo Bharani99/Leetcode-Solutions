@@ -1,5 +1,5 @@
 class Solution {
-    
+    int ans;
     public String getBinaryString(int val){
         String binary = Integer.toBinaryString(val);
         StringBuilder bstring = new StringBuilder();
@@ -10,7 +10,7 @@ class Solution {
     
     public int isParent(int val){
         String bstring = getBinaryString(val);
-        int ans = 0;
+        ans = 0;
         for(char c : bstring.toCharArray()){
             if(c == '0') return ans;
             else ans++;
