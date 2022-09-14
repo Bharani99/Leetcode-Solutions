@@ -15,19 +15,19 @@
  */
 class Solution {
     int ans = 0;
-    public boolean isPalindrome(int[] count){
+    public int isPalindrome(int[] count){
         int odd = 1;
         for(int i = 0; i < 10; i++){
             if(count[i] % 2 == 1) odd--;
-            if(odd < 0) return false;
+            if(odd < 0) return 0;
         }
-        return true;
+        return 1;
     }
     
     public void pseudoPalindrome(TreeNode curr, int[] count){
         if(curr == null) return;
         count[curr.val]++;
-        if(curr.left == null && curr.right == null && isPalindrome(count)) ans++;
+        if(curr.left == null && curr.right == null) ans += isPalindrome(count);
         else{
             pseudoPalindrome(curr.left, count);
             pseudoPalindrome(curr.right, count);
