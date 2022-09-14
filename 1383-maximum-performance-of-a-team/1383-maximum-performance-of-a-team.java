@@ -18,18 +18,16 @@ class Solution {
             return Integer.compare(a[0], b[0]);
         });
         
-        int mod = (int)Math.pow(10, 9) + 7, min = Integer.MAX_VALUE;
         long max = 0, sum = 0;
         
         for(int i = 0; i < n; i++){
             sum += arr[i][0];
-            min = Math.min(min, arr[i][1]);
-            max = Math.max(max, min * sum);
+            max = Math.max(max, arr[i][1] * sum);
             pq.add(arr[i]);
             if(pq.size() == k) {
                 sum -= pq.poll()[0];
             }
         }
-        return (int) (max % mod);
+        return (int) (max % (long)(1e9 + 7));
     }
 }
