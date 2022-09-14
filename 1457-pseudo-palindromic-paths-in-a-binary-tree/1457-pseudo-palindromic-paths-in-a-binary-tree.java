@@ -24,18 +24,19 @@ class Solution {
         return 1;
     }
     
-    public void pseudoPalindrome(TreeNode curr, int[] count){
-        if(curr == null) return;
+    public int pseudoPalindrome(TreeNode curr, int[] count){
+        if(curr == null) return 0;
         count[curr.val]++;
+        int ans = 0;
         if(curr.left == null && curr.right == null) ans += isPalindrome(count);
         else{
-            pseudoPalindrome(curr.left, count);
-            pseudoPalindrome(curr.right, count);
+            ans += pseudoPalindrome(curr.left, count);
+            ans += pseudoPalindrome(curr.right, count);
         }
         count[curr.val]--;
+        return ans;
     }
     public int pseudoPalindromicPaths (TreeNode root) {
-        pseudoPalindrome(root, new int[10]);
-        return ans;
+        return pseudoPalindrome(root, new int[10]);
     }
 }
