@@ -14,7 +14,6 @@
  * }
  */
 class Solution {
-    int ans = 0;
     public int isPalindrome(int[] count){
         int odd = 1;
         for(int i = 0; i < 10; i++){
@@ -36,6 +35,7 @@ class Solution {
         count[curr.val]--;
         return ans;
     }
+    
     public int pseudoPalindromicPaths (TreeNode root) {
         return pseudoPalindrome(root, new int[10]);
     }
