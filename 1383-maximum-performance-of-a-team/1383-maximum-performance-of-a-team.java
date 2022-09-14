@@ -1,17 +1,35 @@
 class Solution {
     public int maxPerformance(int n, int[] speed, int[] efficiency, int k) {
-        int[][] ess = new int[n][2];
-        for (int i = 0; i < n; ++i)
-            ess[i] = new int[] {efficiency[i], speed[i]};
-        Arrays.sort(ess, (a, b) -> b[0] - a[0]);
-        PriorityQueue<Integer> pq = new PriorityQueue<>(k, (a, b) -> a - b);
-        long res = 0, sumS = 0;
-        for (int[] es : ess) {
-            pq.add(es[1]);
-            sumS = (sumS + es[1]);
-            if (pq.size() > k) sumS -= pq.poll();
-            res = Math.max(res, (sumS * es[0]));
+        //o - speed, 1 - eff
+        int[][] arr = new int[n][2];
+        for(int i = 0; i < speed.length; i++){
+            arr[i][0] = speed[i];
+            arr[i][1] = efficiency[i];
         }
-        return (int) (res % (long)(1e9 + 7));
+        Arrays.sort(arr, (a, b) -> {
+            if(a[1] == b[1])
+                return Integer.compare(a[0], b[0]);
+            return Integer.compare(b[1], a[1]);
+        });
+        
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> {
+            if(a[0] == b[0])
+                return Integer.compare(a[1], b[1]);
+            return Integer.compare(a[0], b[0]);
+        });
+        
+        int mod = (int)Math.pow(10, 9) + 7, min = Integer.MAX_VALUE;
+        long max = 0, sum = 0;
+        
+        for(int i = 0; i < n; i++){
+            sum += arr[i][0];
+            min = Math.min(min, arr[i][1]);
+            max = Math.max(max, min * sum);
+            pq.add(arr[i]);
+            if(pq.size() == k) {
+                sum -= pq.poll()[0];
+            }
+        }
+        return (int) (max % mod);
     }
 }
