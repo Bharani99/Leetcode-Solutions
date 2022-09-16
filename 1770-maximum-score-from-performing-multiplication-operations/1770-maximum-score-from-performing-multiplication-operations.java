@@ -1,20 +1,21 @@
 class Solution {
-    public int maximumScore(int[] nums, int[] multipliers) {
-        // For Right Pointer
-        int n = nums.length;
-        // Number of Operations
-        int m = multipliers.length;
-        int[] dp = new int[m + 1];
+    
+    public int maximise(int[] nums, int[] m, int left, int right, int index, int[][] dp){
+        if(index == m.length) return 0;
         
-        for (int op = m - 1; op >= 0; op--) {
-            int[] next_row = dp.clone();
-            // Present Row is now next_Row because we are moving upwards
-            for (int left = op; left >= 0; left--) {
-                dp[left] = Math.max(multipliers[op] * nums[left] + next_row[left + 1],
-                                   multipliers[op] * nums[n - 1 - (op - left)] + next_row[left]);
-            }
-        }
+        if(dp[left][index] != Integer.MIN_VALUE) return dp[left][index];
         
-        return dp[0];
+        int ans = (nums[left] * m[index]) + maximise(nums, m, left + 1, right, index + 1, dp);
+        ans = Math.max(ans, (nums[right] * m[index]) + maximise(nums, m, left, right - 1, index + 1, dp));
+        
+        dp[left][index] = ans;
+        return ans;
     }
+    
+    public int maximumScore(int[] nums, int[] multipliers) {
+        int[][] dp = new int[nums.length][multipliers.length];
+        for(int[] d : dp) Arrays.fill(d, Integer.MIN_VALUE);
+        return maximise(nums, multipliers, 0, nums.length - 1, 0, dp);
+    }
+    
 }
