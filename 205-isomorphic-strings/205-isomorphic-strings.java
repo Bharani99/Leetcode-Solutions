@@ -3,8 +3,10 @@ class Solution {
         if(s.length() != t.length()) return false;
         int[] map = new int[129];
         int[] tmap = new int[129];
-        Arrays.fill(map, -1);
-        Arrays.fill(tmap, -1);
+        for(int i = 0; i < 129; i++){
+            map[i] = -1;
+            tmap[i] = -1;
+        }
         int l = 0, r = 0;
         char x, y;
         while(l < s.length()){
