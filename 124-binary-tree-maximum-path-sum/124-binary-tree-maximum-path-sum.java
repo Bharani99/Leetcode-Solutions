@@ -26,5 +26,5 @@ class Solution {
     public int maxPathSum(TreeNode root) {
         maxTree(root);
         return max;
-    }
+    }    
 }
