@@ -1,10 +1,5 @@
 class Solution {
-    //0 - equal
-    //1 - 1 small
-    //2 - 2 small
-    private boolean check(String w1, int i, String w2, int j){
-        // will return true if we need to extract from word1 and false if we need to extract from word2
-        
+    private boolean check(String w1, int i, String w2, int j){      
         while(i < w1.length() && j < w2.length()){
             if(w1.charAt(i) == w2.charAt(j)){
                 i++;
@@ -16,13 +11,12 @@ class Solution {
                 return false;
             }
         }
-        
-        // if we are unable to find any exhaustable character till the end of the loop we use the one having larger length
         if(i < w1.length()){
             return true;
         }
         return false;
     }
+    
     public String largestMerge(String word1, String word2) {
         int left = 0, right = 0, temp = 0;
         StringBuilder sb = new StringBuilder();
