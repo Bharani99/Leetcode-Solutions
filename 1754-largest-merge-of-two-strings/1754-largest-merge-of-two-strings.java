@@ -1,10 +1,51 @@
 class Solution {
+    //0 - equal
+    //1 - 1 small
+    //2 - 2 small
+    private boolean check(String w1, int i, String w2, int j){
+        // will return true if we need to extract from word1 and false if we need to extract from word2
+        
+        while(i < w1.length() && j < w2.length()){
+            if(w1.charAt(i) == w2.charAt(j)){
+                i++;
+                j++;
+            }
+            else if(w1.charAt(i) > w2.charAt(j)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+        // if we are unable to find any exhaustable character till the end of the loop we use the one having larger length
+        if(i < w1.length()){
+            return true;
+        }
+        return false;
+    }
     public String largestMerge(String word1, String word2) {
-        if(word1.length() == 0 || word2.length() == 0)
-            return word1 + word2;
-        if(word1.compareTo(word2) > 0) 
-            return word1.charAt(0) + largestMerge(word1.substring(1), word2);
-        else 
-            return word2.charAt(0) + largestMerge(word1, word2.substring(1));
+        int left = 0, right = 0, temp = 0;
+        StringBuilder sb = new StringBuilder();
+        while(left < word1.length() && right < word2.length()){
+            if(word2.charAt(right) > word1.charAt(left)){
+                sb.append(word2.charAt(right ++));
+            }
+            else if(word1.charAt(left) > word2.charAt(right)){
+                sb.append(word1.charAt(left ++));
+            }
+            else{
+                if(!check(word1, left, word2, right)){
+                    sb.append(word2.charAt(right ++));
+                }
+                else {
+                    sb.append(word1.charAt(left ++));
+                }
+            }
+        }
+        
+        while(left < word1.length()) sb.append(word1.charAt(left ++));
+        while(right < word2.length()) sb.append(word2.charAt(right ++));
+        
+        return sb.toString();
     }
 }
