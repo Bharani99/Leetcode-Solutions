@@ -1,17 +1,20 @@
-class Solution {    int[] uf = new int[26];
-    public boolean equationsPossible(String[] equations) {
-        for (int i = 0; i < 26; ++i) uf[i] = i;
-        for (String e : equations)
-            if (e.charAt(1) == '=')
-                uf[find(e.charAt(0) - 'a')] = find(e.charAt(3) - 'a');
-        for (String e : equations)
-            if (e.charAt(1) == '!' && find(e.charAt(0) - 'a') == find(e.charAt(3) - 'a'))
-                return false;
-        return true;
+class Solution {
+    public int find(int i, int[] uf){
+        if(uf[i] != i) return find(uf[i], uf);
+        return i;
     }
-
-    public int find(int x) {
-        if (x != uf[x]) uf[x] = find(uf[x]);
-        return uf[x];
+    public boolean equationsPossible(String[] equations) {
+        int[] uf = new int[26];
+        for(int i = 0; i < 26; i++) uf[i] = i;
+        
+        for(String eq : equations){
+            if(eq.charAt(1) == '=')
+                uf[find(eq.charAt(0) - 'a', uf)] = find(eq.charAt(3) - 'a', uf);
+        }
+        
+        for(String eq : equations){
+            if(eq.charAt(1) == '!' && uf[find(eq.charAt(0) - 'a', uf)] == find(eq.charAt(3) - 'a', uf) ) return false;
+        }
+        return true;
     }
 }
