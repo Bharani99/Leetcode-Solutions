@@ -1,34 +1,34 @@
 class Solution {
-    public int firstFall(StringBuilder sb, int start){
-        while(start < sb.length() && sb.charAt(start) == '.') start++;
+    public int firstFall(char[] sb, int start){
+        while(start < sb.length && sb[start] == '.') start++;
         return start;
     }
     
-    public void pushToRight(StringBuilder sb, int left, int right){
+    public void pushToRight(char[] sb, int left, int right){
         while(left < right)
-            sb.setCharAt(left++, 'R');
+            sb[left++] = 'R';
     }
     
-    public void flip(StringBuilder sb, int left, int right){
+    public void flip(char[] sb, int left, int right){
         while(left < right){
-            sb.setCharAt(left++, 'R');
-            sb.setCharAt(right--, 'L');
+            sb[left++] = 'R';
+            sb[right--] = 'L';
         }
     }
     
     public String pushDominoes(String dominoes) {
-        StringBuilder sb = new StringBuilder(dominoes);
+        char[] sb = dominoes.toCharArray();
         int left = 0, right;
-        while(left <= sb.length() - 1){
-            if(sb.charAt(left) == 'L'){
+        while(left < sb.length){
+            if(sb[left] == 'L'){
                 int temp = left - 1;
-                while(temp >= 0 && sb.charAt(temp) == '.') sb.setCharAt(temp--, 'L');
+                while(temp >= 0 && sb[temp] == '.') sb[temp--] = 'L';
                 left++;
             }
-            else if(sb.charAt(left) == 'R'){
-                while(left + 1 < sb.length() && sb.charAt(left + 1) == 'R') left++;
+            else if(sb[left] == 'R'){
+                while(left + 1 < sb.length && sb[left + 1] == 'R') left++;
                 right = firstFall(sb, left + 1);
-                if(right == sb.length() || sb.charAt(right) == 'R') {
+                if(right == sb.length || sb[right] == 'R') {
                     pushToRight(sb, left, right);
                     left = right;
                 }
@@ -39,6 +39,6 @@ class Solution {
             }
             else left++;
         }
-        return sb.toString();
+        return new String(sb);
     }
 }
