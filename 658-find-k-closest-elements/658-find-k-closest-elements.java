@@ -10,18 +10,19 @@ class Solution {
     }
     public List<Integer> findClosestElements(int[] arr, int k, int x) {
         int pos = binarySearch(arr, x);
-        List<Integer> dq = new LinkedList<>();
+        Deque<Integer> dq = new ArrayDeque<>();
         int left = pos - 1, right = pos;
         while(k > 0){
             if(right >= arr.length)
-                dq.add(0, arr[left--]);
-            else if(left < 0) dq.add(arr[right++]);
+                dq.addFirst(arr[left--]);
+            else if(left < 0) dq.addLast(arr[right++]);
             else if(Math.abs(arr[left] - x) <= Math.abs(arr[right] - x))
-                dq.add(0, arr[left--]);
-            else dq.add(arr[right++]);
+                dq.addFirst(arr[left--]);
+            else dq.addLast(arr[right++]);
             k--;
         }
-        
-        return dq;
+        List<Integer> ans = new ArrayList<>();
+        while(!dq.isEmpty())ans.add(dq.poll());
+        return ans;
     }
 }
