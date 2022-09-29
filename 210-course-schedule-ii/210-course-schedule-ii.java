@@ -17,16 +17,16 @@ class Solution {
             if(in[i] == 0) q.add(i);
         }
 
-        int curr;
-        ArrayList<Integer> ans = new ArrayList<>();
+        int curr, order = 0;
+        int[] ans = new int[numCourses];
         while(!q.isEmpty()){
             curr = q.poll();
-            ans.add(curr);
+            ans[order++] = curr;
             for(int dep : dependant.getOrDefault(curr, new HashSet<>())){
                 in[dep]--;
                 if(in[dep] == 0) q.add(dep);
             }
         }
-        return (ans.size() != numCourses) ? new int[0] : ans.stream().mapToInt(i -> i).toArray();
+        return (order != numCourses) ? new int[0] : ans;
     }
 }
