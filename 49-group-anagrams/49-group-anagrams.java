@@ -7,21 +7,16 @@ class Solution {
         return hash;
     }
     public List<List<String>> groupAnagrams(String[] strs) {
-        HashMap<Long, HashSet<Integer>> map = new HashMap<>();
-        HashSet<Integer> set;
+        HashMap<Long, List<String>> map = new HashMap<>();
+        List<String> set;
         for(int i = 0; i < strs.length; i++){
             long hash = getHash(strs[i]);
-            set = map.getOrDefault(hash, new HashSet<>());
-            set.add(i);
+            set = map.getOrDefault(hash, new ArrayList<>());
+            set.add(strs[i]);
             map.put(hash, set);
         }
         
-        List<List<String>> ans = new ArrayList<>();
-        for(long key : map.keySet()){
-            List<String> in = new ArrayList<>();
-            for(int i : map.get(key))in.add(strs[i]);
-            ans.add(in);
-        }
+        List<List<String>> ans = new ArrayList<>(map.values());
         return ans;
     }
 }
