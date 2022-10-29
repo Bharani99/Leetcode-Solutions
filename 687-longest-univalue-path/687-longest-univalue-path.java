@@ -23,7 +23,7 @@ class Solution {
         return (curr.val == val) ? Math.max(left, right) + 1 : 0;
     }
     public int longestUnivaluePath(TreeNode root) {
-        longestPath(root, 1001);
+        longestPath(root, Integer.MAX_VALUE);
         return max;
     }
 }
