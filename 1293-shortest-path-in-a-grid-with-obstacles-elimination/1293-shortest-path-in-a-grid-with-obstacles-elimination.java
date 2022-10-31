@@ -7,7 +7,7 @@ class Solution {
     
     public int shortestPath(int[][] grid, int K) {
         int m = grid.length - 1, n = grid[0].length - 1;
-        int[][][] seen = new int[m + 1][n + 1][K + 1];
+        boolean[][][] seen = new boolean[m + 1][n + 1][K + 1];
         
         Queue<int[]> q = new LinkedList<>();
         //i, j, k, steps
@@ -20,8 +20,8 @@ class Solution {
             j = curr[1];
             k = curr[2];
             if(i == m && j == n) return curr[3];
-            if(seen[i][j][k] == 1) continue;
-            seen[i][j][k] = 1;
+            if(seen[i][j][k]) continue;
+            seen[i][j][k] = true;
             
             for(int x = 0; x < 4; x++){
                 int nexti = i + next[x], nextj = j + next[x + 1];
